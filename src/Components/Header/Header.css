@@ -1,0 +1,20 @@
+.header-bgc {
+    background-color: #C3BEF7;
+}
+.full-name, .high-priority {
+    transition: ease-out 2s;
+    font-weight: bold;
+    color: #EFFFFA;
+}
+.full-name {
+    opacity: 0;
+}
+.avatar:hover + .full-name { 
+    opacity: 1;
+    transition: ease-in-out 1s;
+}
+.full-name:hover { 
+    opacity: 1;
+    transition: ease-in-out 1s;
+    
+}

@@ -1,0 +1,54 @@
+.visible{
+    opacity: 0 ;
+    transition: ease-in .5s;
+}
+
+.hover-effect:hover > .visible, .visible:hover {
+    opacity: 1 ;
+    transition: ease-in-out 0.5s;
+    
+}
+.custom-shadow {
+    box-shadow: none;
+    padding: 5px;
+}
+.custom-shadow:hover {
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    background-color: #EFFFFA;
+    transition: ease-in-out .2s;
+    
+}
+
+.item-bgc {
+    background-color: #E5ECF4;
+}
+.min-w {
+    min-width: 20px;
+}
+.w-50 {
+    width: 50px;
+}
+.container-width {
+    width: 60%;
+}
+
+.done {
+    text-decoration: line-through;
+    color: blue;
+    font-weight: 100;
+    opacity: 0.2;
+}
+
+.high  {
+    color: red;
+    font-weight: bold;
+}
+.medium {
+    color:orange;
+    font-weight: bolder;
+}
+
+.low {
+    color: grey;
+    font-weight: bolder;
+}
