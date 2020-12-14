@@ -4,6 +4,7 @@ import SearchPanel from '../SearchPanel/SearchPanel';
 import AddIitem from '../To-do-list/Add-item/Add-item';
 import ToDoList from '../To-do-list/To-do-list';
 import FinishedItems from '../To-do-list/Finished-items/FinishedItems';
+import EditForm from '../EditForm/Edit-Form';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -25,7 +26,9 @@ export default class Application extends Component {
     ],
     fullName: {name:'Oleksandr', surname: 'Bezborodov'},
     checked: false,
-    term: ''    
+    term: '',
+    edit: false,
+    id: ''   
   };
 
   deleteItem = (id) => {
@@ -36,6 +39,13 @@ export default class Application extends Component {
         todoData: newtodoData 
       }; 
     });
+  };
+  editItem = (id) => {
+    this.setState( { 
+      edit: true,
+      id: id
+    });
+    
   };
   addItem = (title, description = 'bla bla bla', priority = 'medium',deadline) => {  
 
@@ -80,36 +90,42 @@ export default class Application extends Component {
     });
     
   }
-  
+  cancelEdit = (text) => {
+    this.setState({
+      edit: text
+    });  
+  }
   render() {
-    const { todoData,term } = this.state;
+    const { todoData,term, edit } = this.state;
     const searchResult = this.search(todoData,term);
     const { name, surname } = this.state.fullName; 
     const done = this.state.todoData.filter((el) => el.checked && el.priority === 'High' ).length 
     const highPriorityCount = this.state.todoData.filter((el) => el.priority === 'High' ).length - done;
-    console.log('this props in application',this.props);
+    const list = <div>
+    <ToDoList  
+      data={searchResult}
+      onDelete={this.deleteItem}
+      onEdit={this.editItem}
+      onToggleDone={this.onToggleDone}
+    />
+    <FinishedItems 
+        data={searchResult}
+        onDelete={this.deleteItem}
+        onEdit={this.editItem}
+        onToggleDone={this.onToggleDone}
+    />
+    <AddIitem  
+    label='Add your task'
+    onItemAdded = {this.addItem}
+    />
+  </div>;
     return (
       <div className='width mx-auto'>
        <Header name={ name } surname={ surname } counter={ highPriorityCount }/>
         <div>
           <SearchPanel label='find everything' searchChange={this.searchChange}/>
-          
-          <ToDoList  
-            data={searchResult}
-            onDelete={this.deleteItem}
-            onEdit={(id)=> console.log('edited', id)}
-            onToggleDone={this.onToggleDone}
-          />
-          <FinishedItems 
-              data={searchResult}
-              onDelete={this.deleteItem}
-              onEdit={(id)=> console.log('edited', id)}
-              onToggleDone={this.onToggleDone}
-          />
-          <AddIitem  
-          label='Add your task'
-          onItemAdded = {this.addItem}
-          /> 
+          {edit ? <EditForm canceled={this.cancelEdit} item={this.state.todoData[this.state.id]} idx={this.state.id} /> : list}   
+           
         </div>
        
       </div>
