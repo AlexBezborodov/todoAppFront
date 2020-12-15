@@ -5,6 +5,11 @@ import { Container,Button, ButtonGroup,Row,Col } from 'react-bootstrap';
 import './SearchPanel.css';
 
 export default class SearchPanel extends Component {
+    buttons = [{name: 'all', label:'All tasks'},
+               {name: 'priority', label:'Priority'},
+               {name: 'sorted', label:' A -> Z'}
+              ]
+    
     state = {
         term: ''
     }
@@ -14,6 +19,22 @@ export default class SearchPanel extends Component {
         this.props.searchChange(term);
     }
    render() {
+
+        const  {statusFilter, onFilterChange} = this.props;
+        
+        const clickButton = this.buttons.map(({name, label}) => {
+            const isActive = statusFilter === name;
+            const clazz = isActive ? 'btn-info' : 'btn-outline-light';
+            return(
+                <button key={name} 
+                        className={`btn ${clazz}`} 
+                        type='button'
+                        onClick={() => onFilterChange(name)}
+                >
+                    {label}
+                </button> 
+            );
+        });
         return (
             <Container className='d-flex bg-dark'>
                     <Row className='width '>
@@ -28,9 +49,7 @@ export default class SearchPanel extends Component {
                         </Col>    
                         <Col xs='12'sm='12' md='5' lg='4' className='d-flex justify-content-center my-2'>
                             <ButtonGroup size='sm'  aria-label='Search' >
-                                <Button as='input' variant='outline-info active' type='button' value='All tasks' size='sm' />
-                                <Button as='input' variant='outline-info' type='button' value='by priority' size='sm' />
-                                <Button as='input' variant='outline-info' type='button' value='by date' size='sm'  /> 
+                               {clickButton}
                             </ButtonGroup>                
                         </Col>
                     </Row>

@@ -14,8 +14,7 @@ export default class FormRegistration extends Component {
         nameValid: false,
         surnameValid: false,
         emailValid: false,
-        passwordValid: false,
-        
+        passwordValid: false,  
     }
     
     handleChange = (e) => {
@@ -37,12 +36,10 @@ export default class FormRegistration extends Component {
         case 'name':
             nameValid = value.length > 1;
             fieldValidationErrors.name = nameValid ? '': 'must contains min 2symbols ';
-            console.log('nameValid', nameValid);
             break;
         case 'surname':
             surnameValid = value.length >= 2;
             fieldValidationErrors.surname = surnameValid ? '': 'must contains min 2symbols ';
-            console.log('surnameValid', surnameValid);
             break;    
         case 'email':
             emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
@@ -51,7 +48,6 @@ export default class FormRegistration extends Component {
         case 'password':
             passwordValid = value.length >= 6;
             fieldValidationErrors.password = passwordValid ? '': ' must contain min 6 characters';
-            console.log('passwordValid', passwordValid);
             break;    
         default:
             break;
@@ -75,8 +71,6 @@ export default class FormRegistration extends Component {
                 formValid: newFormValid
             });
           }
-        
-        console.log('formValid',this.state.newFormValid);
       }
     
       errorClass(error) {

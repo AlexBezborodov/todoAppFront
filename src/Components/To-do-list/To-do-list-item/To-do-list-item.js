@@ -22,7 +22,15 @@ export default class ToDoListItem extends Component {
         if(checked) {
             classNames = `done`;
         }
-        
+        const editButton = <Button 
+                        as='input' 
+                        variant='warning' 
+                        type='button' 
+                        value='Edit' 
+                        size='sm' 
+                        className='ml-1 ' 
+                        onClick={onEdit}    
+                    />;
         
         return (
             <Container fluid className='d-flex  my-3 hover-effect item-bgc custom-shadow '>
@@ -59,15 +67,8 @@ export default class ToDoListItem extends Component {
                             className='ml-3'
                             onClick={onDelete} 
                         />
-                        <Button 
-                            as='input' 
-                            variant='warning' 
-                            type='button' 
-                            value='Edit' 
-                            size='sm' 
-                            className='ml-1 ' 
-                            onClick={onEdit}    
-                        />
+                        
+                        {checked ? null : editButton}
                     </Col>
                 </Row>                         
             </Container>

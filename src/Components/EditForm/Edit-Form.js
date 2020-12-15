@@ -1,22 +1,41 @@
 import React, { Component } from 'react';
 import { Container,Row,Col,Button,Form } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
-
+import moment from 'moment';
 
 export default class EditForm extends Component {
     state = {
         title: this.props.item.title,
         description: this.props.item.description,
         priority: this.props.item.priority,
-        deadline: new Date()
+        deadline: new Date(),
+        ui:this.props.item.un,
+        checked:this.props.item.checked
     }
     cancel = () => {
-        
         this.props.canceled(false);
     }
+    
+    editChange = (e) => {
+        let name = e.target.name;
+        let value = e.target.value;
+        this.setState({[name]: value});        
+    }  
+    
+    changeDate = (date) => {
+        this.setState({
+            deadline: date
+        });    
+    }; 
+    
+    editAdd = (e) => {
+        e.preventDefault();
+        const {title, description, priority, ui, checked ,deadline} = this.state;
+        const stringDate = moment(deadline).format('L');
+        this.props.editAdded(title, description, priority, stringDate, this.props.idx, ui, checked );
+    }
+    
     render() {
-        
-        
         return (            
             <Container className=' mx-auto my-2 border'>
             <h3 className='ml-3 mt-2'>Edit Task <span className='font-weight-bold text-info'>{this.props.item.title}</span></h3>
@@ -29,16 +48,18 @@ export default class EditForm extends Component {
                                 placeholder="Title"
                                 className="form-control my-2" 
                                 value={this.state.title}
+                                name='title'
+                                onChange={this.editChange}
                             />  
                             <Form.Control 
                                 as="textarea" 
                                 rows={3} 
-                                name='descripotion'
-                                type="text" 
-                                aria-label="descr" 
+                                name='description'
+                                type="text"  
                                 className="form-control my-2" 
                                 placeholder="Description" 
                                 value={this.state.description}
+                                onChange={this.editChange}
                             />
                         </Col>   
                     </Row>
@@ -50,7 +71,7 @@ export default class EditForm extends Component {
                                 >
                                     Priority 
                                 </label>
-                                <select value={this.state.priority} className='custom-select' required >
+                                <select value={this.state.priority} name='priority' className='custom-select' onChange={this.editChange} required >
                                     <option value='High'>High</option>
                                     <option value='Medium'>Medium</option>
                                     <option value='Low'>Low</option>
@@ -60,9 +81,9 @@ export default class EditForm extends Component {
                         <Col xs='12' sm='8' md='6' className='d-flex justify-content-start align-items-center'>
                             <label className='m-2'>Deadline date </label>
                             <DatePicker 
-                                className='align-self-center my-2  ' 
+                                className='align-self-center my-2' 
                                 selected={this.state.deadline} 
-                                // onChange={this.changeDate} 
+                                onChange={this.changeDate} 
                                 minDate={new Date()}
                                 isClearable
                                 
@@ -75,6 +96,7 @@ export default class EditForm extends Component {
                                 variant='outline-info active' 
                                 size='sm' 
                                 className='my-auto button-width'
+                                onClick={this.editAdd}
                             />
                             <Button 
                                 as='input' 

@@ -36,8 +36,7 @@ export default class AddIitem extends Component {
         
     };
     changeDate = (date) => {
-        
-        console.log(date); 
+    
         this.setState({
             deadline: date
         });
@@ -49,6 +48,10 @@ export default class AddIitem extends Component {
         const {deadline} = this.state;
         const stringDate = moment(deadline).format('L');
         this.props.onItemAdded(this.state.title, this.state.description,this.state.priority, stringDate );
+        this.setState({
+            title: '',
+            description: ''
+        });
     }
     render() {
         const { label } = this.props;
@@ -69,6 +72,7 @@ export default class AddIitem extends Component {
                             className="form-control" 
                             placeholder="Title" 
                             onChange={this.changeTitle}
+                            value={this.state.title}
                         />    
                         </div>
                         
@@ -79,6 +83,7 @@ export default class AddIitem extends Component {
                             className="form-control" 
                             placeholder="Description" 
                             onChange={this.changeDescription}
+                            value={this.state.description}
                         />
                     </div>
                     </Row>
